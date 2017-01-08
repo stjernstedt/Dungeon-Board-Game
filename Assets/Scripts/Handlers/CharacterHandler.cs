@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CharacterHandler : MonoBehaviour, IInitializeable
 {
 	public List<Character> characters;
-	Character selected;
+	public Character selected;
 	DepthFirst depthFirst;
 	Dictionary<Vector3, Node> tiles;
 

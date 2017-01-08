@@ -7,29 +7,13 @@ public class MeleeAttack : Ability
 	void Awake()
 	{
 		abilityName = "Melee Attack";
+		range = 2;
 	}
 
 	public override void Execute()
 	{
 		charHandler.abilityRunning = true;
-		StartCoroutine(Target());
+		targetingHandler.StartTargeting(this);
 	}
 
-	public override IEnumerator Target()
-	{
-		while (charHandler.abilityRunning == true)
-		{
-			if (Input.GetMouseButtonDown(0))
-			{
-				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-				RaycastHit hit;
-				if (Physics.Raycast(ray, out hit, 1000))
-				{
-					Debug.Log(hit.collider.name);
-					charHandler.abilityRunning = false;
-				}
-			}
-			yield return null;
-		}
-	}
 }
