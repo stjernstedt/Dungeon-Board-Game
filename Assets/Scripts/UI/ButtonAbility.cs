@@ -4,7 +4,7 @@ using System.Collections;
 public class ButtonAbility : MonoBehaviour
 {
 
-	public IAction action;
+	public Ability action;
 
 	public void Start()
 	{

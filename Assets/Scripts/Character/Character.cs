@@ -11,9 +11,6 @@ public class Character : MonoBehaviour
 	public bool walking = false;
 	public LayerMask ignoreLayers;
 
-	public List<IAction> actions = new List<IAction>();
-	public List<Ability> abilities = new List<Ability>();
-
 	GameObject worldData;
 
 	// Use this for initialization

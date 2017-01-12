@@ -20,6 +20,9 @@ public class TargetingHandler : MonoBehaviour
 
 	IEnumerator Target(Ability ability)
 	{
+		List<GameObject> particlesList = new List<GameObject>();
+		List<GameObject> viableTargets = new List<GameObject>();
+
 		Vector3 pos = charHandler.selected.GetCurrentCell().coord;
 		for (int x = (int)pos.x - ability.range; x <= pos.x + ability.range; x++)
 		{
@@ -34,8 +37,10 @@ public class TargetingHandler : MonoBehaviour
 					}
 					else if (character.transform.position.x == x && character.transform.position.z == z)
 					{
-						GameObject parts = Instantiate(targetingParticles);
-						parts.transform.position = new Vector3(x, 0.1f, z);
+						GameObject particles = Instantiate(targetingParticles);
+						particles.transform.position = new Vector3(x, 0.1f, z);
+						particlesList.Add(particles);
+						viableTargets.Add(character.gameObject);
 					}
 				}
 
@@ -49,6 +54,7 @@ public class TargetingHandler : MonoBehaviour
 				RaycastHit hit;
 				if (Physics.Raycast(ray, out hit, 1000))
 				{
+					//HACK change from fixed number to half model width
 					float offset = 0.5f;
 					foreach (Character character in charHandler.characters)
 					{
@@ -58,9 +64,10 @@ public class TargetingHandler : MonoBehaviour
 							Vector3 charPos = new Vector3((int)character.transform.position.x, 0, (int)character.transform.position.z);
 
 							//checks if distance between ray hit and character is less or equals to offset, which should be half of character width
-							if (Mathf.Abs(hitPos.x - charPos.x) <= offset && Mathf.Abs(hitPos.z - charPos.z) <= offset)
+							if (Mathf.Abs(hitPos.x - charPos.x) <= offset && Mathf.Abs(hitPos.z - charPos.z) <= offset && viableTargets.Contains(character.gameObject))
 							{
 								Debug.Log(character.name);
+								ability.FireAt(character.gameObject);
 							}
 						}
 					}
@@ -71,5 +78,12 @@ public class TargetingHandler : MonoBehaviour
 			yield return null;
 		}
 
+		Debug.Log(particlesList.Count);
+
+		foreach (GameObject parts in particlesList)
+		{
+			parts.GetComponent<ParticleSystem>().Stop();
+			Destroy(parts, 2);
+		}
 	}
 }

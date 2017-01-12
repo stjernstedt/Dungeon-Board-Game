@@ -37,8 +37,8 @@ public class GameInitializer : MonoBehaviour
 
 		charHandler.characters.Add(player.GetComponent<Character>());
 		charHandler.characters.Add(goblin.GetComponent<Character>());
-		Ability ability = player.AddComponent<MeleeAttack>();
-		player.GetComponent<Character>().abilities.Add(ability);
+
+		player.AddComponent<MeleeAttack>();
 		uiHandler.PopulatePanel(player.GetComponent<Character>());
 	}
 }
