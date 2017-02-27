@@ -14,8 +14,8 @@ public abstract class Ability : MonoBehaviour
 
 	void Start()
 	{
-		charHandler = GameObject.Find("World Data").GetComponent<CharacterHandler>();
-		targetingHandler = GameObject.Find("World Data").GetComponent<TargetingHandler>();
+		charHandler = GameObject.Find("Core").GetComponent<CharacterHandler>();
+		targetingHandler = GameObject.Find("Core").GetComponent<TargetingHandler>();
 	}
 
 }

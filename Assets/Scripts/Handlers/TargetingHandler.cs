@@ -29,13 +29,14 @@ public class TargetingHandler : MonoBehaviour
 			for (int z = (int)pos.z - ability.range; z <= pos.z + ability.range; z++)
 			{
 				//HACK costly? rewrite?
-				foreach (Character character in charHandler.characters)
+				foreach (Character character in charHandler.enemies)
 				{
-					if (character == charHandler.selected)
-					{
-						//if selected character do nothing else add particles
-					}
-					else if (character.transform.position.x == x && character.transform.position.z == z)
+					//if (character == charHandler.selected)
+					//{
+					//	//if selected character do nothing else add particles
+					//}
+					//else if (character.transform.position.x == x && character.transform.position.z == z)
+					if (character.transform.position.x == x && character.transform.position.z == z)
 					{
 						GameObject particles = Instantiate(targetingParticles);
 						particles.transform.position = new Vector3(x, 0.1f, z);
@@ -56,29 +57,25 @@ public class TargetingHandler : MonoBehaviour
 				{
 					//HACK change from fixed number to half model width
 					float offset = 0.5f;
-					foreach (Character character in charHandler.characters)
+					foreach (Character character in charHandler.enemies)
 					{
-						if (character != charHandler.selected)
-						{
-							Vector3 hitPos = new Vector3(hit.point.x, 0, hit.point.z);
-							Vector3 charPos = new Vector3((int)character.transform.position.x, 0, (int)character.transform.position.z);
+						//if (character != charHandler.selected)
+						//{
+						Vector3 hitPos = new Vector3(hit.point.x, 0, hit.point.z);
+						Vector3 charPos = new Vector3((int)character.transform.position.x, 0, (int)character.transform.position.z);
 
-							//checks if distance between ray hit and character is less or equals to offset, which should be half of character width
-							if (Mathf.Abs(hitPos.x - charPos.x) <= offset && Mathf.Abs(hitPos.z - charPos.z) <= offset && viableTargets.Contains(character.gameObject))
-							{
-								Debug.Log(character.name);
-								ability.FireAt(character.gameObject);
-							}
+						//checks if distance between ray hit and character is less or equals to offset, which should be half of character width
+						if (Mathf.Abs(hitPos.x - charPos.x) <= offset && Mathf.Abs(hitPos.z - charPos.z) <= offset && viableTargets.Contains(character.gameObject))
+						{
+							ability.FireAt(character.gameObject);
 						}
+						//}
 					}
-					//Debug.Log(hit.collider.name);
 					charHandler.abilityRunning = false;
 				}
 			}
 			yield return null;
 		}
-
-		Debug.Log(particlesList.Count);
 
 		foreach (GameObject parts in particlesList)
 		{

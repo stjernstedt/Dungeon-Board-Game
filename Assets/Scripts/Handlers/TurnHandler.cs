@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
-public class TurnHandler : MonoBehaviour
+public class TurnHandler : MonoBehaviour, IInitializeable
 {
 	public Text turnText;
 	CharacterHandler charHandler;
-	int turnNr = 1;
+	int turnNr = 0;
 
-	// Use this for initialization
-	void Awake()
+	public void Init()
 	{
 		charHandler = GetComponent<CharacterHandler>();
 	}
 
-	// Update is called once per frame
-	void Update()
+	public void FirstTurn()
 	{
-
+		charHandler.SelectUnit(charHandler.characters[0]);
+		turnNr += 1;
+		turnText.text = "Turn " + turnNr;
+		turnText.gameObject.SetActive(true);
 	}
 
 	public void EndTurn()
@@ -27,9 +29,16 @@ public class TurnHandler : MonoBehaviour
 			character.movesLeft = character.moves;
 		}
 
+		foreach (Character character in charHandler.enemies)
+		{
+			character.GetComponent<MonsterAI>().DoActions();
+			character.movesLeft = character.moves;
+		}
+
 		charHandler.SelectUnit(charHandler.characters[0]);
 		turnNr += 1;
 		turnText.text = "Turn " + turnNr;
 		turnText.gameObject.SetActive(true);
 	}
+
 }

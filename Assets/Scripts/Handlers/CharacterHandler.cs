@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class CharacterHandler : MonoBehaviour, IInitializeable
 {
-	public List<Character> characters;
+	public List<Character> characters = new List<Character>();
+	public List<Character> enemies = new List<Character>();
 	public Character selected;
 	DepthFirst depthFirst;
 	Dictionary<Vector3, Node> tiles;

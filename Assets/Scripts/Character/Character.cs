@@ -9,14 +9,14 @@ public class Character : MonoBehaviour
 	public float waitBetweenWalk = 0.2f;
 
 	public bool walking = false;
-	public LayerMask ignoreLayers;
+	public LayerMask layerMask;
 
-	GameObject worldData;
+	//GameObject worldData;
 
 	// Use this for initialization
 	void Start()
 	{
-		worldData = GameObject.Find("World Data");
+		//worldData = GameObject.Find("World Data");
 	}
 
 	public Node GetCurrentCell()
@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
 		Ray ray = new Ray(transform.position, new Vector3(0, -1, 0));
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, 100f, ignoreLayers))
+		if (Physics.Raycast(ray, out hit, 100f, layerMask))
 		{
 			node = hit.collider.GetComponent<Node>();
 		}
@@ -33,11 +33,11 @@ public class Character : MonoBehaviour
 		return node;
 	}
 
-	public void OnMouseOver()
-	{
-		if (Input.GetMouseButtonDown(0))
-		{
-			worldData.GetComponent<CharacterHandler>().SelectUnit(this);
-		}
-	}
+	//public void OnMouseOver()
+	//{
+	//	if (Input.GetMouseButtonDown(0))
+	//	{
+	//		worldData.GetComponent<CharacterHandler>().SelectUnit(this);
+	//	}
+	//}
 }
